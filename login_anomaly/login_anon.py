@@ -5,11 +5,11 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-    # --- 1. Generate Synthetic Time-Series Login Data ---
+    # Generate Synthetic Time-Series Login Data
 print("Generating synthetic login data...")
 np.random.seed(42)
 
-    # Generate normal login times (mostly within business hours, some scattered)
+    # Generate normal login times 
 num_normal_days = 30
 normal_logins_per_day = 50
 normal_data = []
@@ -56,18 +56,14 @@ df['DayOfWeek'] = df['Timestamp'].dt.dayofweek # Monday=0, Sunday=6
 features = ['Hour', 'DayOfWeek']
 X = df[features]
 
-    # --- 2. Preprocessing: Scale Features ---
+    # Preprocessing: Scale Features 
 print("Scaling features...")
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
-    # --- 3. Train Isolation Forest Model ---
-    # Isolation Forest is effective for anomaly detection.
-    # It "isolates" anomalies by randomly picking a feature and then randomly picking a split value.
-    # Anomalies are fewer and thus isolated closer to the root of the tree.
 print("Training Isolation Forest model...")
 model = IsolationForest(
-        contamination='auto', # 'auto' lets the model estimate the proportion of outliers
+        contamination='auto', 
         random_state=42,
         n_estimators=100 # Number of trees in the forest
     )
@@ -79,7 +75,7 @@ df['is_anomaly'] = df['anomaly'].apply(lambda x: 1 if x == -1 else 0) # Convert 
 
 print(f"Detected {df['is_anomaly'].sum()} anomalies.")
 
-    # --- 4. Visualize Results ---
+    # Visualize Results 
 print("Generating visualization...")
 plt.figure(figsize=(12, 7))
 sns.scatterplot(
