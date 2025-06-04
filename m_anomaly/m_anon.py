@@ -38,7 +38,7 @@ print(f"Generated {len(df)} total XR telemetry records ({num_anomalies} syntheti
     # Features for OCSVM
 X = df.copy()
 
-    # 2. Preprocessing: Scale Features 
+    #  Preprocessing: Scale Features 
 print("Scaling features...")
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
