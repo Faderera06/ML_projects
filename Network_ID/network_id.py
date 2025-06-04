@@ -5,10 +5,7 @@ from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 
-# --- 1. Define Column Names (Modified to account for a potential extra index column) ---
-# NSL-KDD has 41 features + 1 class label. We'll use a subset for quick demo.
-# The 'unnamed_idx' is added here to handle cases where the .txt file might have an extra
-# leading column (often an auto-generated index) that Pandas reads by default.
+# Define Column Names 
 feature_names = [
     "unnamed_idx", # <-- ADDED THIS DUMMY COLUMN NAME
     "duration", "protocol_type", "service", "flag", "src_bytes", "dst_bytes",
@@ -72,8 +69,7 @@ df_combined[numerical_features] = scaler.fit_transform(df_combined[numerical_fea
 print("Numerical features scaled.")
 
 # Convert attack_type to binary: 'normal' vs 'anomaly'
-# Isolation Forest is an unsupervised anomaly detection algorithm.
-# For evaluation, we'll treat all non-'normal' instances as anomalies.
+
 df_combined['is_anomaly'] = df_combined['attack_type'].apply(lambda x: 0 if x == 'normal' else 1)
 
 # Separate features (X) and target (y)
@@ -83,9 +79,7 @@ y = df_combined['is_anomaly']
 # Train Isolation Forest Model 
 # contamination: The proportion of outliers in the data set.
 
-# Let's estimate contamination from the combined dataset for a more realistic scenario
-# In a real unsupervised setting, you wouldn't know 'is_anomaly' beforehand.
-# Here, we use it for a more informed demo.
+
 contamination_rate = y.sum() / len(y) # Proportion of actual anomalies
 print(f"Estimated anomaly contamination rate: {contamination_rate:.4f}")
 
@@ -104,8 +98,7 @@ model.fit(X)
 print("Isolation Forest model trained.")
 
 # Predict anomalies: -1 for outliers, 1 for inliers
-# The decision_function computes the anomaly score. Lower score indicates higher anomaly.
-# The predict method uses a threshold internally based on contamination.
+
 predictions = model.predict(X)
 
 # Converted Isolation Forest output (-1, 1) to our binary (0, 1) for evaluation
