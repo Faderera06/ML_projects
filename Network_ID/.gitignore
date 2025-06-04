@@ -1,0 +1,24 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+*.pyc
+__pycache__/
+
+# OS generated files
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# IDE related files
+.vscode/
+.idea/
+
+# Plot images
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Data files
+*.csv
+*.xlsx
