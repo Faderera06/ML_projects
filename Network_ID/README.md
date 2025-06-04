@@ -1,8 +1,5 @@
 Project: Network Intrusion Detection System
 
-Project Overview
-This project focuses on building a robust machine learning model to detect various types of network intrusions. In an increasingly interconnected world, network security is paramount, and the ability to automatically identify malicious activities is crucial. This system aims to classify network connections as either normal or intrusive, contributing to a more secure digital environment.
-
 Project Goal
 To develop and evaluate binary classification models capable of accurately distinguishing between legitimate and intrusive network connections using a well-known cybersecurity dataset.
 
