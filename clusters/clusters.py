@@ -5,7 +5,7 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-    # --- 1. Generate Synthetic User Activity Data ---
+    # Generate Synthetic User Activity Data 
 print("Generating synthetic user activity data...")
 np.random.seed(42)
 
@@ -30,17 +30,15 @@ data = np.clip(data, 0, None)
 df = pd.DataFrame(data, columns=['daily_activity_score', 'avg_session_duration_min', 'interactions_per_session'])
 print(f"Generated {len(df)} user records.")
 
-    # --- 2. Preprocessing: Scale Features ---
+    # Preprocessing: Scale Features
 print("Scaling features...")
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(df)
 
-    # --- 3. Train K-Means Clustering Model ---
-    # K-Means aims to partition n observations into k clusters
-    # where each observation belongs to the cluster with the nearest mean.
-    # We will assume k=3 clusters based on our synthetic data generation.
+    # Train K-Means Clustering Model 
+  
 print("Training K-Means clustering model (k=3)...")
-kmeans = KMeans(n_clusters=3, random_state=42, n_init=10) # n_init is good practice for robust centroids
+kmeans = KMeans(n_clusters=3, random_state=42, n_init=10) 
 df['cluster'] = kmeans.fit_predict(X_scaled)
 
 print("\nCluster centers (scaled features):")
@@ -50,7 +48,7 @@ print("\nUsers per cluster:")
 print(df['cluster'].value_counts().sort_index())
 
 
-    # --- 4. Visualize Results (using two features for 2D plot) ---
+    # Visualize Results (using two features for 2D plot) 
 print("Generating visualization...")
 plt.figure(figsize=(10, 7))
 sns.scatterplot(
