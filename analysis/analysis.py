@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# --- 1. Generate Synthetic Network Traffic Data ---
+# Generate Synthetic Network Traffic Data
 print("Generating synthetic network traffic data...")
 np.random.seed(42)
 
@@ -45,25 +45,25 @@ print(f"Generated {len(df)} total network records ({df['is_malicious'].sum()} ma
 X = df.drop('is_malicious', axis=1)
 y = df['is_malicious']
 
-# --- 2. Preprocessing: Scale Numerical Features ---
+# Preprocessing: Scale Numerical Features 
 print("Scaling numerical features...")
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
 
-# --- 3. Split Data into Training and Testing Sets ---
+# Split Data into Training and Testing Sets 
 print("Splitting data into training and testing sets...")
 X_train, X_test, y_train, y_test = train_test_split(X_scaled_df, y, test_size=0.25, random_state=42, stratify=y)
 print(f"Training set: {len(X_train)} samples, Testing set: {len(X_test)} samples.")
 print(f"Malicious samples in test set: {y_test.sum()}")
 
-# --- 4. Train RandomForestClassifier Model ---
+# Train RandomForestClassifier Model 
 print("Training RandomForestClassifier model...")
 # RandomForestClassifier is an ensemble model that provides feature importances
 model = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced') # 'balanced' for imbalanced data
 model.fit(X_train, y_train)
 
-# --- 5. Make Predictions and Evaluate Model ---
+#  Make Predictions and Evaluate Model 
 print("\n--- Model Evaluation ---")
 y_pred = model.predict(X_test)
 
@@ -71,7 +71,7 @@ print(f"Accuracy: {accuracy_score(y_test, y_pred):.4f}")
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred, target_names=['Normal', 'Malicious']))
 
-# --- 6. Extract and Visualize Feature Importances ---
+# Extract and Visualize Feature Importances
 print("\n--- Feature Importance Analysis ---")
 feature_importances = model.feature_importances_
 features = X.columns
