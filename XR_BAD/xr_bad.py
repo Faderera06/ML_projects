@@ -6,10 +6,8 @@ from sklearn.metrics import classification_report, accuracy_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# --- 1. Generate Synthetic XR User Behavior Data ---
-# Simulate 'normal' user behavior: smooth movements, typical interaction frequencies.
-# Let's imagine a user moving through a virtual space (x, y, z) and performing actions.
-# For simplicity, we'll generate features like 'avg_speed', 'turn_rate', 'interaction_frequency'.
+# Generate Synthetic XR User Behavior Data
+
 
 np.random.seed(42) # for reproducibility
 
@@ -39,20 +37,14 @@ labels = np.array([0] * num_normal_samples + [1] * num_anomaly_samples)
 
 print(f"Generated {num_normal_samples} normal samples and {num_anomaly_samples} anomaly samples.")
 
-# --- 2. Preprocessing ---
+# Preprocessing 
 # Scale features
 scaler = StandardScaler()
 scaled_data = scaler.fit_transform(data)
 print("Data scaled.")
 
-# --- 3. Train Local Outlier Factor (LOF) Model ---
-# LOF is an unsupervised algorithm that measures the local deviation of a given data point
-# with respect to its neighbors. It's good for detecting anomalies in density.
-# n_neighbors: Number of neighbors to consider for the local density calculation.
-# contamination: The proportion of outliers in the data set.
+# Train Local Outlier Factor (LOF) Model
 
-# In a real unsupervised setting, you wouldn't know the exact contamination.
-# Here, we use the true contamination for a more informed demo.
 contamination_rate = num_anomaly_samples / (num_normal_samples + num_anomaly_samples)
 print(f"Estimated anomaly contamination rate: {contamination_rate:.4f}")
 
@@ -67,22 +59,19 @@ model.fit(scaled_data)
 print("Local Outlier Factor model trained.")
 
 # Predict anomalies: -1 for outliers, 1 for inliers
-# The decision_function computes the anomaly score. Lower score indicates higher anomaly.
-# The predict method uses a threshold internally based on contamination.
+
 predictions = model.predict(scaled_data)
 
 # Convert LOF output (-1, 1) to our binary (0, 1) for evaluation
 predicted_anomalies = np.where(predictions == -1, 1, 0)
 
-# --- 4. Evaluate the Model ---
+# Evaluate the Model 
 print("\n--- Model Evaluation ---")
 print(f"Accuracy: {accuracy_score(labels, predicted_anomalies):.4f}")
 print("\nClassification Report:")
 print(classification_report(labels, predicted_anomalies, target_names=['Normal', 'Anomaly']))
 
-# --- 5. Visualize Results (for 2 features for simplicity) ---
-# If you have more than 2 features, PCA or t-SNE would be needed for 2D visualization.
-# For this synthetic data, we can plot two features.
+# Visualize Results 
 
 plt.figure(figsize=(10, 7))
 sns.scatterplot(x=data['avg_speed'], y=data['turn_rate'], hue=labels, style=predicted_anomalies,
