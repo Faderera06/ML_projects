@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-    # --- 1. Generate Synthetic Security Alert Data ---
+    # Generate Synthetic Security Alert Data 
 print("Generating synthetic security alert data...")
 np.random.seed(42)
 
@@ -43,27 +43,27 @@ print(f"Generated {len(df)} total alert records ({df['is_malicious'].sum()} mali
 X = df.drop('is_malicious', axis=1)
 y = df['is_malicious']
 
-    # --- 2. Preprocessing: Scale Numerical Features ---
+    # Preprocessing: Scale Numerical Features
 print("Scaling numerical features...")
 scaler = StandardScaler()
     # Scale all features
 X_scaled = scaler.fit_transform(X)
 X_scaled_df = pd.DataFrame(X_scaled, columns=X.columns)
 
-    # --- 3. Split Data into Training and Testing Sets ---
+    #  Split Data into Training and Testing Sets 
 print("Splitting data into training and testing sets...")
     # Stratify by 'y' to ensure balanced representation of malicious samples in both sets
 X_train, X_test, y_train, y_test = train_test_split(X_scaled_df, y, test_size=0.25, random_state=42, stratify=y)
 print(f"Training set: {len(X_train)} samples, Testing set: {len(X_test)} samples.")
 print(f"Malicious samples in test set: {y_test.sum()}")
 
-    # --- 4. Train Decision Tree Classifier Model ---
+    # Train Decision Tree Classifier Model 
 print("Training Decision Tree Classifier model...")
     # Decision Trees are interpretable and can capture non-linear relationships
 model = DecisionTreeClassifier(random_state=42)
 model.fit(X_train, y_train)
 
-    # --- 5. Make Predictions and Evaluate Model ---
+    # Make Predictions and Evaluate Model
 print("\n--- Model Evaluation ---")
 y_pred = model.predict(X_test)
 
@@ -78,7 +78,7 @@ print("\nConfusion Matrix:")
     #  [False Negatives, True Positives]]
 print(confusion_matrix(y_test, y_pred))
 
-    # --- 6. Demonstrate a Few Sample Predictions ---
+    #  Demonstrate a Few Sample Predictions
 print("\n--- Sample Predictions ---")
 sample_indices = [0, 5, 10, 15, 20] # Select a few from the test set
 for i in sample_indices:
